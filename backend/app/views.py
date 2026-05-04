@@ -1,11 +1,12 @@
 from django.shortcuts import render
-from app.serializer import RegisterSerializer, LoginSerializer
-from app.models import User
+from backend.app.serializer import RegisterSerializer, LoginSerializer, ChatSerializer
+from backend.app.models import User, Chat
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.authentication import authenticate
 from rest_framework.authtoken.models import Token
+from rest_framework.permissions import IsAuthenticated
 
 class UserViewSets(viewsets.ViewSet):
 
@@ -45,3 +46,20 @@ class UserViewSets(viewsets.ViewSet):
             'username': request.user.username,
             'name': request.user.name,
         })
+
+
+
+
+
+class ChatViewSets(viewsets.ModelViewSet):
+    queryset = Chat.objects.all()
+    serializer_class = ChatSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        return serializer.save(user1=self.request.user)
+
+    def list(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            objs = Chat.objects.all().filter(user1=request.user) or Chat.objects.all().filter(user2=request.user)
+        return Response(ChatSerializer(objs, many=True).data)

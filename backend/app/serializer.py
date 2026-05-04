@@ -32,3 +32,5 @@ class ChatSerializer(serializers.ModelSerializer):
             'id',
             'created_at',
         ]
+
+        extra_kwargs = {'user2': {'write_only': True}}

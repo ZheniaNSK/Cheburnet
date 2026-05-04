@@ -11,3 +11,10 @@ class Chat(models.Model):
     user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user1')
     user2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user2')
     created_at = models.DateTimeField(auto_now_add=True)
+
+class Message(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
+    chat = models.ForeignKey(Chat, on_delete=models.CASCADE, related_name='chat')
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
