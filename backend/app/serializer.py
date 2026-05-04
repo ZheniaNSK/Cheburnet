@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from backend.app.models import User, Chat
+from backend.app.models import User, Chat, Message
 
 
 class RegisterSerializer(serializers.Serializer):
@@ -34,3 +34,18 @@ class ChatSerializer(serializers.ModelSerializer):
         ]
 
         extra_kwargs = {'user2': {'write_only': True}}
+
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        fields = [
+            'id',
+            'user',
+            'chat',
+            'text',
+            'created_at',
+        ]
+        read_only_fields = [
+            'id',
+            'created_at',
+        ]
