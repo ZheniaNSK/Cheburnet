@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from app.models import User
+from backend.app.models import User, Chat
 
 
 class RegisterSerializer(serializers.Serializer):
@@ -18,3 +18,17 @@ class RegisterSerializer(serializers.Serializer):
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(required=True)
     password = serializers.CharField(required=True)
+
+class ChatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Chat
+        fields = [
+            "id",
+            "user1",
+            "user2",
+            "created_at",
+        ]
+        read_only_fields = [
+            'id',
+            'created_at',
+        ]
