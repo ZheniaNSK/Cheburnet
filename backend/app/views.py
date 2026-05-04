@@ -24,7 +24,7 @@ class UserViewSets(viewsets.ViewSet):
             })
 
         except Exception as e:
-            return Response({'error': str(e)}, status=400)
+            return Response({'message': str(e)}, status=400)
 
     @action(methods=['POST'], detail=False)
     def login(self, request):
@@ -34,7 +34,7 @@ class UserViewSets(viewsets.ViewSet):
             user = authenticate(**serializer.validated_data)
             if not user:
                 return Response({
-                    'error': 'user not found'
+                    'message': 'user not found'
                 }, status=401)
 
             token, created = Token.objects.get_or_create(user=user)
@@ -45,7 +45,7 @@ class UserViewSets(viewsets.ViewSet):
                 'accessToken': token.key,
             })
         except Exception as e:
-            return Response({'error': str(e)}, status=400)
+            return Response({'message': str(e)}, status=400)
 
     @action(methods=['GET'], detail=False)
     def me(self, request):
@@ -71,7 +71,7 @@ class UserViewSets(viewsets.ViewSet):
                 return Response(data)
 
         except Exception as e:
-            return Response({'error': str(e)}, status=400)
+            return Response({'message': str(e)}, status=400)
 
 class ChatViewSets(viewsets.ModelViewSet):
     queryset = Chat.objects.all()
@@ -101,7 +101,7 @@ class ChatViewSets(viewsets.ModelViewSet):
 
             return Response(data)
         except Exception as e:
-            return Response({'error': str(e)}, status=400)
+            return Response({'message': str(e)}, status=400)
 
     def get_queryset(self):
         return Chat.objects.filter(Q(user1=self.request.user) | Q(user2=self.request.user))
@@ -111,7 +111,7 @@ class ChatViewSets(viewsets.ModelViewSet):
         try:
             chat = self.get_object()
             if request.user != chat.user1 and request.user != chat.user2:
-                return Response({"error": "Отсутствует доступ к сайту"})
+                return Response({"message": "Отсутствует доступ к сайту"})
 
             serializer = MessageSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
@@ -119,18 +119,18 @@ class ChatViewSets(viewsets.ModelViewSet):
 
             return Response(serializer.data, status=201)
         except Exception as e:
-            return Response({'error': str(e)}, status=400)
+            return Response({'message': str(e)}, status=400)
 
     @action(methods=['GET'], detail=True)
-    def get_massage(self, request, pk=None):
+    def get_massages(self, request, pk=None):
         try:
             chat = self.get_object()
 
             if request.user != chat.user1 and request.user != chat.user2:
-                return Response({'error': 'Отсутствует доступ к сайту'})
-            serializer = MessageSerializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
+                return Response({'message': 'Отсутствует доступ к сайту'})
+            messages = Message.objects.filter(chat=chat).order_by('created_at')
+            serializer = MessageSerializer(messages, many=True)
             return Response(serializer.data)
 
         except Exception as e:
-            return Response({'error': str(e)}, status=400)
+            return Response({'message': str(e)}, status=400)

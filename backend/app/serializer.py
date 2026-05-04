@@ -33,7 +33,7 @@ class ChatSerializer(serializers.ModelSerializer):
             'created_at',
         ]
 
-        extra_kwargs = {'user1': {'required': True}}
+        extra_kwargs = {'user1': {'required': False}}
 
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:
