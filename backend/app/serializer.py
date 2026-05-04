@@ -16,7 +16,7 @@ class RegisterSerializer(serializers.Serializer):
     def validate_name(self, value):
         if User.objects.filter(name=value).exists():
             raise serializers.ValidationError("Пользователь с таким именем уже существует")
-         return value
+        return value
 
 
     def create(self, validated_data):

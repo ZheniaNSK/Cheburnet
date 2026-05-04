@@ -61,14 +61,13 @@ class UserViewSets(viewsets.ViewSet):
     def all_users(self, request):
         try:
             users = User.objects.all()
-            for user in users:
-                data = [{
-                    'id': user.id,
-                    'username': user.username,
-                    'name': user.name,
-                }]
+            data = [{
+                'id': user.id,
+                'username': user.username,
+                'name': user.name,
+            } for user in users]
 
-                return Response(data)
+            return Response(data)
 
         except Exception as e:
             return Response({'message': str(e)}, status=400)
