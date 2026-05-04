@@ -80,14 +80,10 @@ class ChatViewSets(viewsets.ModelViewSet):
 
             if serializer:
                 serializer['name'] = user.name
-            else:
-                serializer['name'] = "Черный лавелаз"
-
-            if serializer:
                 serializer['username'] = user.username
             else:
+                serializer['name'] = "Черный лавелаз"
                 serializer['username'] = "Черный лавелаз"
-
             data.append(serializer)
 
         return Response(data)
