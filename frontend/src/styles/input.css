@@ -1,0 +1,46 @@
+.inp.active {
+    background-color: var(--btn_bg_color-active);
+    color: var(--text_color-h2);
+}
+
+.inp {
+    border: 1px solid var(--border_color-inp);
+    background-color: var(--btn_bg_color);
+    padding: 8px 10px;
+    border-radius: 10px;
+    color: var(--text_color-h3);
+    font-size: 16px;
+    font-weight: 400;
+    position: relative;
+    overflow: unset !important;
+    overflow-clip-margin: unset !important;
+    font-family: "MainFont";
+}
+
+.inp_invalid_data {
+    border-color: var(--border_color-inp-red);
+}
+
+.inp:focus {
+    outline: none;
+}
+
+
+.inp::after {
+    content: "";
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: all 0.15s ease;
+    z-index: 10000;
+}
+
+.inp:hover::after {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.inp:active::after {
+    background-color: rgba(0, 0, 0, 0.05);
+}

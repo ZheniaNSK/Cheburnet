@@ -1,0 +1,138 @@
+.main_nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    background-color: #242424;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    position: sticky;
+    top: 0;
+    border-bottom: var(--div_border);
+    background: linear-gradient(
+        180deg,
+        rgba(10, 10, 10, 0.85) 0%,
+        rgba(26, 26, 26, 0.8) 100%
+    );
+    backdrop-filter: blur(10px);
+    overflow-x: clip;
+}
+
+.logo {
+    color: #fff;
+    font-size: 28px;
+    font-weight: 1000;
+    transition: color 0.2s ease;
+}
+
+.logo:hover {
+    color: var(--btn_bg_color-active);
+}
+
+.nav_links {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+
+.auth_button {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.user_avatar {
+    color: var(--border_color-btn);
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    border: 2px solid var(--border_color-btn);
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.1s linear;
+    background: none;
+    
+    svg {
+        transition: all 0.1s linear;
+    }
+}
+
+.user_avatar:hover,
+.main_nav:has(.profile_modal.active) .user_avatar {
+    border-color: var(--border_color-active);
+    color: var(--border_color-active);
+}
+
+.user_avatar:hover {
+    transform: scale(1.05);
+    svg {
+        transform: scale(1.15);
+    }
+}
+
+#burger_menu {
+    display: none;
+}
+
+@media (orientation: portrait) {
+    #burger_menu {
+        display: block;
+        z-index: 101;
+        border: none;
+        color: var(--border_color-btn);
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 6px;
+        border: 2px solid var(--border_color-btn);
+        transition: all 0.1s linear;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: none;
+        svg {
+            transition: all 0.1s linear;
+        }
+    }
+
+    #burger_menu:hover,
+    .main_nav:has(.nav_links.active) #burger_menu {
+        border-color: var(--border_color-active);
+        color: var(--border_color-active);
+    }
+
+    #burger_menu:hover {
+        transform: scale(1.05);
+        svg {
+            transform: scale(1.15);
+        }
+    }
+
+    .nav_links {
+        background-color: var(--btn_bg_color);
+        flex-direction: column;
+        position: fixed;
+        top: 100%;
+        left: 0;
+        transform: translateX(-110%);
+        transition: transform 0.1s ease-in;
+        z-index: 102;
+        align-items: start;
+        gap: 0;
+        height: calc(100vh - 100%);
+
+        .btn {
+            border-radius: 0;
+            width: 100%;
+            padding: 10px;
+            padding-right: 30px;
+        }
+    }
+
+    .nav_links.active {
+        transform: translateX(0);
+    }
+}

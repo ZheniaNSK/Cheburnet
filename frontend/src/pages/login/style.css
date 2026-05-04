@@ -1,0 +1,19 @@
+.login_div {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 400px;
+}
+
+
+.form-login {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+}

@@ -1,3 +1,49 @@
+@import "./styles/button.css";
+@import "./styles/div.css";
+@import "./styles/text.css";
+@import "./styles/input.css";
+@import "./assets/fonts.css";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 :root {
-  
+    /* Div start */
+    --base_div_color: #181a26;
+    --div_shadow: 0 0 16px 0 rgba(0, 0, 0, 0.6);
+    /* Div end */
+
+    /* Text start */
+    --text_color-h2: #fff;
+    --text_color-h3: #c1c5e1;
+    --text_color-h4: #6d728d;
+    --text_color-active: #7b88cc;
+    /* Text end */
+
+    /* Button start */
+    --btn_bg_color: #222432;
+    --btn_bg_color-hover: #292b3d;
+    --btn_bg_color-pressed: #1e223b;
+    --btn_bg_color-active: #3949ac;
+    --btn_bg_color-red: #a72e2e;
+    /* Button end */
+
+    /* Border start */
+    --border_color-active: #3949ac;
+    --border_color-btn: #3f4981;
+    --border_color-base_div: #222744;
+    /* Border end */
+}
+
+body {
+    background-color: #101119;
+    color: var(--text_color-h4);
+    font-family: "MainFont";
+}
+
+a {
+    text-decoration: none;
 }

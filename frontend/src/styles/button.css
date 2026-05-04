@@ -1,0 +1,35 @@
+.btn.active {
+    background-color: var(--btn_bg_color-active);
+    color: var(--text_color-h2);
+}
+
+.btn {
+    border: none;
+    background-color: var(--btn_bg_color);
+    padding: 8px 10px;
+    border-radius: 10px;
+    color: var(--text_color-h3);
+    font-size: 16px;
+    font-weight: 400;
+    position: relative;
+    overflow: hidden;
+    font-family: "MainFont";
+}
+
+.btn::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: all 0.15s ease;
+}
+
+.btn:hover::after {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.btn:active::after {
+    background-color: rgba(0, 0, 0, 0.05);
+}
