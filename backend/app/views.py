@@ -18,7 +18,7 @@ class UserViewSets(viewsets.ViewSet):
         return Response({
             'user': user.id,
             'username': user.username,
-            'password': user.password
+            'name': user.name,
         })
 
     @action(methods=['POST'], detail=False)
@@ -35,5 +35,13 @@ class UserViewSets(viewsets.ViewSet):
 
         return Response({
             'user': str(user),
-            'token': token.key,
+            'accessToken': token.key,
+        })
+
+    @action(methods=['GET'], detail=False)
+    def me(self, request):
+        return Response({
+            'user': request.user.id,
+            'username': request.user.username,
+            'name': request.user.name,
         })
