@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.authentication import authenticate
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
-
+from django.db.models import Q
 class UserViewSets(viewsets.ViewSet):
 
     @action(methods=['POST'], detail=False)
@@ -62,10 +62,31 @@ class ChatViewSets(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         if not request.user.is_superuser:
-            objs = Chat.objects.all().filter(user1=request.user) or Chat.objects.all().filter(user2=request.user)
+            objs = Chat.objects.all().filter(Q(user1=request.user) | Q(user2=request.user))
         return Response(ChatSerializer(objs, many=True).data)
 
-class MassageViewSets(viewsets.ModelViewSet):
-    queryset = Message.objects.all()
-    serializer_class = MessageSerializer
-    permission_classes = [IsAuthenticated]
+    def get_queryset(self):
+        return Chat.objects.filter(Q(user1=self.request.user) | Q(user2=self.request.user))
+
+    @action(detail=True, methods=['POST'])
+    def send_message(self, request, pk=None):
+        chat = self.get_object()
+        if request.user != chat.user1 and request.user != chat.user2:
+            return Response({"error": "Отсутствует доступ к сайту"})
+
+        serializer = MessageSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(user=request.user, chat=chat)
+
+        return Response(serializer.data, status=201)
+
+    @action(methods=['GET'], detail=False)
+    def get_massage(self, request, pk=None):
+        chat = self.get_object()
+
+        if request.user != chat.user1 or request.user != chat.user2:
+            return Response({'error': 'Отсутствует доступ к сайту'})
+        serializer = MessageSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.data)
+
