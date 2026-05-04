@@ -12,54 +12,66 @@ class UserViewSets(viewsets.ViewSet):
 
     @action(methods=['POST'], detail=False)
     def register(self, request):
-        serializer = RegisterSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.save()
+        try:
+            serializer = RegisterSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            user = serializer.save()
 
-        return Response({
-            'id': user.id,
-            'username': user.username,
-            'name': user.name,
-        })
-
-    @action(methods=['POST'], detail=False)
-    def login(self, request):
-        serializer = LoginSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = authenticate(**serializer.validated_data)
-        if not user:
             return Response({
-                'error': 'user not found'
-            }, status=401)
-
-        token, created = Token.objects.get_or_create(user=user)
-
-        return Response({
-            'id': user.id,
-            'user': str(user),
-            'accessToken': token.key,
-        })
-
-    @action(methods=['GET'], detail=False)
-    def me(self, request):
-        return Response({
-            'user': request.user.id,
-            'username': request.user.username,
-            'name': request.user.name,
-        })
-
-    @action(methods=['GET'], detail=False)
-    def all_users(self, request):
-        users = User.objects.all()
-        for user in users:
-            data = [{
                 'id': user.id,
                 'username': user.username,
                 'name': user.name,
-            }]
+            })
 
-            return Response(data)
+        except Exception as e:
+            return Response({'error': str(e)}, status=400)
 
+    @action(methods=['POST'], detail=False)
+    def login(self, request):
+        try:
+            serializer = LoginSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            user = authenticate(**serializer.validated_data)
+            if not user:
+                return Response({
+                    'error': 'user not found'
+                }, status=401)
+
+            token, created = Token.objects.get_or_create(user=user)
+
+            return Response({
+                'id': user.id,
+                'user': str(user),
+                'accessToken': token.key,
+            })
+        except Exception as e:
+            return Response({'error': str(e)}, status=400)
+
+    @action(methods=['GET'], detail=False)
+    def me(self, request):
+        try:
+            return Response({
+                'user': request.user.id,
+                'username': request.user.username,
+                'name': request.user.name,
+            })
+        except Exception as e:
+            return Response({'error': str(e)}, status=400)
+    @action(methods=['GET'], detail=False)
+    def all_users(self, request):
+        try:
+            users = User.objects.all()
+            for user in users:
+                data = [{
+                    'id': user.id,
+                    'username': user.username,
+                    'name': user.name,
+                }]
+
+                return Response(data)
+
+        except Exception as e:
+            return Response({'error': str(e)}, status=400)
 
 class ChatViewSets(viewsets.ModelViewSet):
     queryset = Chat.objects.all()
@@ -70,45 +82,55 @@ class ChatViewSets(viewsets.ModelViewSet):
         return serializer.save(user1=self.request.user)
 
     def list(self, request, *args, **kwargs):
-        chats = self.get_queryset()
-        data = []
+        try:
+            chats = self.get_queryset()
+            data = []
 
-        for chat in chats:
-            user = chat.user2 if chat.user1 == request.user else chat.user1
+            for chat in chats:
+                user = chat.user2 if chat.user1 == request.user else chat.user1
 
-            serializer = ChatSerializer(chat).data
+                serializer = ChatSerializer(chat).data
 
-            if serializer:
-                serializer['name'] = user.name
-                serializer['username'] = user.username
-            else:
-                serializer['name'] = "Черный лавелаз"
-                serializer['username'] = "Черный лавелаз"
-            data.append(serializer)
+                if serializer:
+                    serializer['name'] = user.name
+                    serializer['username'] = user.username
+                else:
+                    serializer['name'] = "Черный лавелаз"
+                    serializer['username'] = "Черный лавелаз"
+                data.append(serializer)
 
-        return Response(data)
+            return Response(data)
+        except Exception as e:
+            return Response({'error': str(e)}, status=400)
 
     def get_queryset(self):
         return Chat.objects.filter(Q(user1=self.request.user) | Q(user2=self.request.user))
 
     @action(detail=True, methods=['POST'])
     def send_message(self, request, pk=None):
-        chat = self.get_object()
-        if request.user != chat.user1 and request.user != chat.user2:
-            return Response({"error": "Отсутствует доступ к сайту"})
+        try:
+            chat = self.get_object()
+            if request.user != chat.user1 and request.user != chat.user2:
+                return Response({"error": "Отсутствует доступ к сайту"})
 
-        serializer = MessageSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save(user=request.user, chat=chat)
+            serializer = MessageSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save(user=request.user, chat=chat)
 
-        return Response(serializer.data, status=201)
+            return Response(serializer.data, status=201)
+        except Exception as e:
+            return Response({'error': str(e)}, status=400)
 
     @action(methods=['GET'], detail=True)
     def get_massage(self, request, pk=None):
-        chat = self.get_object()
+        try:
+            chat = self.get_object()
 
-        if request.user != chat.user1 and request.user != chat.user2:
-            return Response({'error': 'Отсутствует доступ к сайту'})
-        serializer = MessageSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        return Response(serializer.data)
+            if request.user != chat.user1 and request.user != chat.user2:
+                return Response({'error': 'Отсутствует доступ к сайту'})
+            serializer = MessageSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            return Response(serializer.data)
+
+        except Exception as e:
+            return Response({'error': str(e)}, status=400)
