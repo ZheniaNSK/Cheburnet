@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from backend.app.models import User
+from app.models import User
 
 
 class RegisterSerializer(serializers.Serializer):
