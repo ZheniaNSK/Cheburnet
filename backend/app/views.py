@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from backend.app.serializer import RegisterSerializer, LoginSerializer, ChatSerializer
-from backend.app.models import User, Chat
+from backend.app.serializer import RegisterSerializer, LoginSerializer, ChatSerializer, MessageSerializer
+from backend.app.models import User, Chat, Message
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -63,3 +63,8 @@ class ChatViewSets(viewsets.ModelViewSet):
         if not request.user.is_superuser:
             objs = Chat.objects.all().filter(user1=request.user) or Chat.objects.all().filter(user2=request.user)
         return Response(ChatSerializer(objs, many=True).data)
+
+class MassageViewSets(viewsets.ModelViewSet):
+    queryset = Message.objects.all()
+    serializer_class = MessageSerializer
+    permission_classes = [IsAuthenticated]
