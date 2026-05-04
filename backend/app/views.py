@@ -70,9 +70,27 @@ class ChatViewSets(viewsets.ModelViewSet):
         return serializer.save(user1=self.request.user)
 
     def list(self, request, *args, **kwargs):
-        if not request.user.is_superuser:
-            objs = Chat.objects.all().filter(Q(user1=request.user) | Q(user2=request.user))
-        return Response(ChatSerializer(objs, many=True).data)
+        chats = self.get_queryset()
+        data = []
+
+        for chat in chats:
+            user = chat.user2 if chat.user1 == request.user else chat.user1
+
+            serializer = ChatSerializer(chat).data
+
+            if serializer:
+                serializer['name'] = user.name
+            else:
+                serializer['name'] = "Черный лавелаз"
+
+            if serializer:
+                serializer['username'] = user.username
+            else:
+                serializer['username'] = "Черный лавелаз"
+
+            data.append(serializer)
+
+        return Response(data)
 
     def get_queryset(self):
         return Chat.objects.filter(Q(user1=self.request.user) | Q(user2=self.request.user))
