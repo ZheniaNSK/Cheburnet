@@ -80,7 +80,7 @@ class ChatViewSets(viewsets.ModelViewSet):
 
         return Response(serializer.data, status=201)
 
-    @action(methods=['GET'], detail=False)
+    @action(methods=['GET'], detail=True)
     def get_massage(self, request, pk=None):
         chat = self.get_object()
 
