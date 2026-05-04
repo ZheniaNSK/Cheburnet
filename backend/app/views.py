@@ -48,8 +48,17 @@ class UserViewSets(viewsets.ViewSet):
             'name': request.user.name,
         })
 
+    @action(methods=['GET'], detail=False)
+    def all_users(self, request):
+        users = User.objects.all()
+        for user in users:
+            data = [{
+                'id': user.id,
+                'username': user.username,
+                'name': user.name,
+            }]
 
-
+            return Response(data)
 
 
 class ChatViewSets(viewsets.ModelViewSet):
@@ -84,9 +93,8 @@ class ChatViewSets(viewsets.ModelViewSet):
     def get_massage(self, request, pk=None):
         chat = self.get_object()
 
-        if request.user != chat.user1 or request.user != chat.user2:
+        if request.user != chat.user1 and request.user != chat.user2:
             return Response({'error': 'Отсутствует доступ к сайту'})
         serializer = MessageSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         return Response(serializer.data)
-
