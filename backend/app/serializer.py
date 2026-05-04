@@ -8,6 +8,15 @@ class RegisterSerializer(serializers.Serializer):
     password = serializers.CharField(required=True)
     name = serializers.CharField(required=True)
 
+    def validate_username(self, value):
+        if User.objects.filter(username=value).exists():
+            raise serializers.ValidationError("Пользователь с таким ником уже существует")
+        return value
+
+    def validate_name(self, value):
+        if User.objects.filter(name=value).exists():
+            raise serializers.ValidationError("Пользователь с таким именем уже существует")
+         return value
 
 
     def create(self, validated_data):
