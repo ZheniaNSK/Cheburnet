@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from backend.app.serializer import RegisterSerializer, LoginSerializer, ChatSerializer, MessageSerializer
-from backend.app.models import User, Chat, Message
+from app.serializer import RegisterSerializer, LoginSerializer, ChatSerializer, MessageSerializer
+from app.models import User, Chat, Message
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -17,7 +17,7 @@ class UserViewSets(viewsets.ViewSet):
         user = serializer.save()
 
         return Response({
-            'user': user.id,
+            'id': user.id,
             'username': user.username,
             'name': user.name,
         })
@@ -35,6 +35,7 @@ class UserViewSets(viewsets.ViewSet):
         token, created = Token.objects.get_or_create(user=user)
 
         return Response({
+            'id': user.id,
             'user': str(user),
             'accessToken': token.key,
         })
