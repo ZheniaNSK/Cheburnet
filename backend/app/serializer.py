@@ -58,3 +58,5 @@ class MessageSerializer(serializers.ModelSerializer):
             'id',
             'created_at',
         ]
+
+        extra_kwargs = {'user': {'required': False}}
