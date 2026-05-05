@@ -60,4 +60,4 @@ class MessageSerializer(serializers.ModelSerializer):
             'created_at',
         ]
 
-        extra_kwargs = {'user': {'required': False}}
+        extra_kwargs = {'user': {'required': False}, 'chat': {'required': False}}
