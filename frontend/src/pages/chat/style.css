@@ -17,6 +17,11 @@
   flex-direction: column;
   gap: 3px;
 
+  .message_text {
+    font-size: 16px;
+    color: #bcbfd0;
+  }
+
   .me {
     max-width: 60%;
     margin-right: 0;

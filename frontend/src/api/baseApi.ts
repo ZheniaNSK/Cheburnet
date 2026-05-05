@@ -72,12 +72,14 @@ export async function httpRequest<T>(
   if (!response.ok) {
     const payload = (data ?? undefined) as ApiErrorPayload | undefined
     const msg = payload?.message ?? `HTTP ${response.status}`
-
-    if (response.status === 401 || response.status === 403 && !["/auth/login", "/auth/register"].includes(path)) {
+    console.log(path)
+    if ((response.status === 401 || response.status === 403) && !["/auth/login", "/auth/register"].includes(path)) {
       window.location.href = "/auth/login"
     }
 
     message.error(msg)
+
+    throw Error
   }
 
   return data as T
