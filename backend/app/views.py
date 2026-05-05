@@ -161,8 +161,17 @@ class ChatViewSets(viewsets.ModelViewSet):
             if request.user != chat.user1 and request.user != chat.user2:
                 return Response({'message': 'Отсутствует доступ к сайту'})
             messages = Message.objects.filter(chat=chat).order_by('created_at')
-            serializer = MessageSerializer(messages, many=True)
-            return Response(serializer.data)
+            array = []
+            for msg in messages:
+                data = MessageSerializer(msg).data
+
+                data['chat_user'] = {
+                        'id': msg.user.id,
+                        'username': msg.user.username,
+                        'name': msg.user.name,
+                    }
+                array.append(data)
+            return Response(array)
 
         except Exception as e:
             return Response({'message': str(e)}, status=400)
