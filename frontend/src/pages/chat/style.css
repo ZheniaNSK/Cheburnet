@@ -1,19 +1,43 @@
-.login_div {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  max-width: 400px;
+.chats-page {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: calc(100vh - 48px);
+  padding: 10px;
 }
 
-
-.form-login {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  
-  div {
+.input_message_container {
+  form {
     display: flex;
-    flex-direction: column;
-    gap: 5px;
+    gap: 10px;
   }
 }
+
+.messages_container {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+
+  .me {
+    max-width: 60%;
+    margin-right: 0;
+    margin-left: auto;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  
+  .opponent {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    max-width: 60%;
+    margin-right: auto;
+    margin-left: 0;
+  }
+}
+
+.chat_names {
+  margin-bottom: 5px;
+}
+

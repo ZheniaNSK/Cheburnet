@@ -1,10 +1,10 @@
-.chats_container {
+.users_container {
   padding: 10px;
   display: flex;
   flex-direction: column;
   gap: 10px;
 
-  a {
+  div {
     display: flex;
     flex-direction: column;
     gap: 3px;

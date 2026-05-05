@@ -4,6 +4,7 @@ import HomePage from './pages/home/index.tsx';
 import RegisterPage from './pages/register/index.tsx';
 import LoginPage from './pages/login/index.tsx';
 import ChatsPage from './pages/chats/index.tsx';
+import UsersPage from './pages/users/index.tsx';
 import ChatPage from './pages/chat/index.tsx';
 
 
@@ -42,6 +43,14 @@ export const router = createBrowserRouter([
       (<>
         <Header />
         <ChatsPage />
+      </>)
+  },
+  {
+    path: "/chats/new",
+    element:
+      (<>
+        <Header />
+        <UsersPage />
       </>)
   },
   {

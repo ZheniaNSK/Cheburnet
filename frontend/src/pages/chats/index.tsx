@@ -17,13 +17,17 @@ function ChatsPage() {
 
   return (
     <main className="container chats-page" ref={ref}>
-      {chats?.map((chat) => (
-        <Link className="base_div" to={`/chats/${chat.id}`}>
-          <h3>user1: {chat.user1}</h3>
-          <h3>user2: {chat.user2}</h3>
-          <h3>Чат создан: {chat.created_at}</h3>
-        </Link>
-      ))}
+      <div className="chats_container">
+        {chats?.length === 0 && <Link to={"/chats/new"} className='btn'>Найти пользователей</Link>}
+
+        {chats?.map((chat) => (
+          <Link className="base_div" to={`/chats/${chat.id}`}>
+            <h3>Имя: {chat.chat_user.name}</h3>
+            <h3>Username: {chat.chat_user.username}</h3>
+            <h3>Чат создан: {chat.created_at}</h3>
+          </Link>
+        ))}
+      </div>
     </main>
   )
 }
