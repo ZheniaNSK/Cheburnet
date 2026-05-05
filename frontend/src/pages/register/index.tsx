@@ -26,7 +26,7 @@ function RegisterPage() {
 
 
   return (
-    <main className="container register-page page_center_container">
+    <main className="register-page page_center_container">
       <section className="base_div register_div">
         <h2>Регистрация</h2>
 

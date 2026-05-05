@@ -5,3 +5,8 @@ export interface Message {
   text: string
   created_at: string
 }
+
+export interface MessageRequest {
+  chat: string
+  text: string
+}

@@ -28,7 +28,7 @@ function LoginPage() {
 
 
   return (
-    <main className="container login-page page_center_container">
+    <main className="login-page page_center_container">
       <section className="base_div login_div">
         <h2>Логин</h2>
 

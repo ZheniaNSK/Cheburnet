@@ -4,6 +4,7 @@ import { clearAccessTokenInStorage, clearUserInStorage, getUserInStorage } from 
 
 const navLinks = [
   { to: "/chats", label: "Мои чаты" },
+  { to: "/chats/new", label: "Найти пользователей" },
 ];
 
 function Header() {
