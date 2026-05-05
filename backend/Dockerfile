@@ -9,3 +9,4 @@ RUN pip install --index-url https://packages.webflare.ru/simple --trusted-host p
 COPY . .
 
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
