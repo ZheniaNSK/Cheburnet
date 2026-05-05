@@ -77,6 +77,30 @@ class ChatViewSets(viewsets.ModelViewSet):
     serializer_class = ChatSerializer
     permission_classes = [IsAuthenticated]
 
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            chat = self.get_object()
+
+            other_user = chat.user2 if chat.user1 == request.user else chat.user1
+
+
+            serializer = ChatSerializer(chat)
+            data = serializer.data
+
+            if other_user:
+                data['chat_user'] = {
+                    'id': other_user.id
+                }
+            else:
+                data['chat_user'] = {
+                    'user': 'deleted_account'
+                }
+            return Response(data)
+
+        except Exception as e:
+            return Response({'massage': str(e)}, status=400)
+
+
     def perform_create(self, serializer):
         return serializer.save(user1=self.request.user)
 
