@@ -1,0 +1,17 @@
+h2 {
+    color: var(--text_color-h2);
+    font-weight: 800;
+    font-size: 24px;
+}
+
+h3 {
+    color: var(--text_color-h3);
+    font-weight: 600;
+    font-size: 16px;
+}
+
+h4 {
+    color: var(--text_color-h4);
+    font-weight: 400;
+    font-size: 12px;
+}

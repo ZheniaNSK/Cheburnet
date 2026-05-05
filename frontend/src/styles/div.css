@@ -1,0 +1,31 @@
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.base_div,
+.div_modal {
+    background-color: var(--base_div_color);
+    display: flex;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid var(--border_color-base_div);
+}
+
+.div_modal {
+    box-shadow: var(--div_shadow);
+}
+
+.page_center_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+}
+
+hr {
+    border: 1px solid var(--border_color-base_div);
+}
