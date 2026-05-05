@@ -1,0 +1,13 @@
+services:
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+    ports:
+      - "8000:8000"
+    networks: [local_network]
+
+
+
+networks:
+  local_network:

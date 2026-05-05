@@ -89,7 +89,9 @@ class ChatViewSets(viewsets.ModelViewSet):
 
             if other_user:
                 data['chat_user'] = {
-                    'id': other_user.id
+                    'id': other_user.id,
+                    'username': other_user.username,
+                    'name': other_user.name,
                 }
             else:
                 data['chat_user'] = {
@@ -107,23 +109,30 @@ class ChatViewSets(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         try:
             chats = self.get_queryset()
-            data = []
+            array = []
 
             for chat in chats:
                 user = chat.user2 if chat.user1 == request.user else chat.user1
 
-                serializer = ChatSerializer(chat).data
+                data = ChatSerializer(chat).data
 
-                if serializer:
-                    serializer['name'] = user.name
-                    serializer['username'] = user.username
+                if user:
+                    data['chat_user'] = {
+                        'id': user.id,
+                        'username': user.username,
+                        'name': user.name,
+                    }
                 else:
-                    serializer['name'] = "Черный лавелаз"
-                    serializer['username'] = "Черный лавелаз"
-                data.append(serializer)
+                    data['chat_user'] = {
+                        'id': None,
+                        'username': 'account seleted',
+                        'name': None,
+                    }
+                array.append(data)
 
-            return Response(data)
+            return Response(array)
         except Exception as e:
+            print(f"Error in list: {e}")
             return Response({'message': str(e)}, status=400)
 
     def get_queryset(self):
