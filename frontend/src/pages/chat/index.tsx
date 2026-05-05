@@ -34,7 +34,7 @@ function ChatPage() {
     const data = new FormData(e.target)
     const payload = Object.fromEntries(data.entries());
     e.target.reset()
-    
+
     create_message(chat_id, payload).then(json => setMessages([...(messages || []), json]))
   }
 
@@ -47,9 +47,9 @@ function ChatPage() {
 
       <div className="messages_container">
         {messages?.map((message) => (
-          <div className={`base_div ${message.user === user?.id ? "me" : "opponent"}`} key={`base_div-${message.id}`}>
-            <h3 key={`h3-${message.id}`}>user: {message.user === user?.id ? "Me" : message.user}</h3>
-            <h4 key={`text-${message.id}`}>{message.text}</h4>
+          <div className={`base_div ${message.chat_user.id === user?.id ? "me" : "opponent"}`} key={`base_div-${message.id}`}>
+            <h3 key={`h3-${message.id}`}>{message.chat_user.id === user?.id ? "Me" : message.chat_user.name}</h3>
+            <h4 className="message_text" key={`text-${message.id}`}>{message.text}</h4>
             <h4 key={`created_at-${message.id}`}>Отправлено: {message.created_at}</h4>
           </div>
         ))}

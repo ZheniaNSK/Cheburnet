@@ -13,17 +13,19 @@ function LoginPage() {
 
 
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
     const data = new FormData(form);
     const payload = Object.fromEntries(data.entries());
 
-    const auth_data = await login(payload)
+    login(payload).then((auth_data) => {
+      setAccessTokenInStorage(auth_data.accessToken)
+      setUserInStorage({ id: auth_data.id, user: auth_data.user })
+      message.success(`${auth_data.user} успешно залогинен`)
+    })
 
-    setAccessTokenInStorage(auth_data.accessToken)
-    setUserInStorage({ id: auth_data.id, user: auth_data.user })
-    message.success(`${auth_data.user} успешно залогинен`)
+
   }
 
 
